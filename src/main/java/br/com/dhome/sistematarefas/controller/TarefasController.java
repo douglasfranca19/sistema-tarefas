@@ -1,7 +1,6 @@
 package br.com.dhome.sistematarefas.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.dhome.sistematarefas.dto.TarefasEntradaDto;
+import br.com.dhome.sistematarefas.dto.TarefasRetornoDto;
 import br.com.dhome.sistematarefas.entities.TarefasEntitie;
 import br.com.dhome.sistematarefas.service.TarefasService;
 
@@ -25,19 +26,27 @@ public class TarefasController {
 	private TarefasService service;
 
 	@PostMapping(value = "/insere")
-	public ResponseEntity<TarefasEntitie> addTarefas(@RequestBody TarefasEntitie tarefasEntitie) {
+	public ResponseEntity<TarefasEntitie> addTarefas(@RequestBody TarefasEntradaDto tarefasDto) {
+
+		TarefasEntitie tarefasEntitie = new TarefasEntitie();
+
+		tarefasEntitie.setDescricaoTarefa(tarefasDto.getDescricaoTarefa());
+		tarefasEntitie.setDataTarefa(tarefasDto.getDataTarefa());
+		tarefasEntitie.setTipoTarefa(tarefasDto.getTipoTarefa());
+		tarefasEntitie.setStatusTarefa(tarefasDto.getStatusTarefa());
+
 		return ResponseEntity.ok().body(service.addTarefas(tarefasEntitie));
 
 	}
 
 	@GetMapping(value = "/busca-id/{id}")
-	public ResponseEntity<Optional<TarefasEntitie>> findById(@PathVariable Long id) {
+	public ResponseEntity<TarefasRetornoDto> findById(@PathVariable Long id) {
 		return ResponseEntity.ok().body(service.findById(id));
 
 	}
 
 	@GetMapping(value = "/busca-todos")
-	public ResponseEntity<List<TarefasEntitie>> findAll() {
+	public ResponseEntity<List<TarefasRetornoDto>> findAll() {
 		return ResponseEntity.ok().body(service.findAll());
 
 	}
@@ -49,7 +58,15 @@ public class TarefasController {
 
 	@PutMapping(value = "/atualiza-tarefa/{id}")
 	public ResponseEntity<TarefasEntitie> atualizaTarefa(@PathVariable Long id,
-			@RequestBody TarefasEntitie tarefasEntitie) {
+			@RequestBody TarefasEntradaDto tarefasDto) {
+
+		TarefasEntitie tarefasEntitie = new TarefasEntitie();
+
+		tarefasEntitie.setDescricaoTarefa(tarefasDto.getDescricaoTarefa());
+		tarefasEntitie.setDataTarefa(tarefasDto.getDataTarefa());
+		tarefasEntitie.setTipoTarefa(tarefasDto.getTipoTarefa());
+		tarefasEntitie.setStatusTarefa(tarefasDto.getStatusTarefa());
+
 		return ResponseEntity.ok().body(service.atualizaTarefa(id, tarefasEntitie));
 
 	}

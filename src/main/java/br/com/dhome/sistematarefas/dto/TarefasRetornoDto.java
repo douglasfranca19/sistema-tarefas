@@ -2,18 +2,32 @@ package br.com.dhome.sistematarefas.dto;
 
 import java.util.Date;
 
-public class TarefasDto {
+public class TarefasRetornoDto {
 
+	private Long id;
 	private String tipoTarefa;
 	private String descricaoTarefa;
 	private Date dataTarefa;
 	private String statusTarefa;
 
-	public TarefasDto(String tipoTarefa, String descricaoTarefa, Date dataTarefa, String statusTarefa) {
+	public TarefasRetornoDto() {
+	}
+
+	public TarefasRetornoDto(Long id, String tipoTarefa, String descricaoTarefa, Date dataTarefa, String statusTarefa) {
+		super();
+		this.id = id;
 		this.tipoTarefa = tipoTarefa;
 		this.descricaoTarefa = descricaoTarefa;
 		this.dataTarefa = dataTarefa;
 		this.statusTarefa = statusTarefa;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getTipoTarefa() {
