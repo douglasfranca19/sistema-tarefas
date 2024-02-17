@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.dhome.sistematarefas.entities.TarefasEntitie;
+import br.com.dhome.sistematarefas.exceptions.IdNotFound;
 import br.com.dhome.sistematarefas.repository.TarefasRepository;
 import jakarta.transaction.Transactional;
 
@@ -22,8 +23,13 @@ public class TarefasService {
 	}
 
 	public Optional<TarefasEntitie> findById(Long id) {
-		return tarefas.findById(id);
 
+		Optional<TarefasEntitie> tarefasSearch = tarefas.findById(id);
+
+		if (tarefasSearch.isEmpty()) {
+			throw new IdNotFound("Id " + id + " não encontrado na base dados");
+		}
+		return tarefasSearch;
 	}
 
 	public List<TarefasEntitie> findAll() {
